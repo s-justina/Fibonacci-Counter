@@ -14,8 +14,8 @@ function App() {
     const [fibs, setFibs] = useState(getInitialFibs);
 
     function getInitialFibs() {
-      const prev = fib(n - 1);
-      const current = fib(n);
+      const prev = fib(initialN - 1);
+      const current = fib(initialN);
       return { prev: prev, current: current, next: prev + current };
     }
 
@@ -67,7 +67,7 @@ function App() {
   }
   return (
     <div className="App">
-      <FibonacciCounter initialN={35} />
+      <FibonacciCounter initialN={1} />
     </div>
   );
 }
