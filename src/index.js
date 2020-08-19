@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import "./styles.css";
@@ -12,6 +12,11 @@ function App() {
   function FibonacciCounter({ initialN }) {
     const [n, setN] = useState(initialN);
     const [fibs, setFibs] = useState(getInitialFibs);
+    const currentFibonacciNumber = fibs.current;
+    useEffect(() => {
+      document.title = `It's calculated: ${currentFibonacciNumber}`;
+      console.count("It is rendering");
+    }, [currentFibonacciNumber]);
 
     function getInitialFibs() {
       const prev = fib(initialN - 1);
