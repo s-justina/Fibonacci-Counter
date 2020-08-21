@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import "./styles.css";
+import { useTimeOnPage } from "./useTimeOnPage";
 
 function fib(n) {
   if (n <= 1) return n;
@@ -71,21 +72,13 @@ function FibonacciCounter({ initialN }) {
 }
 
 function TimeOnPage() {
-  const [time, setTime] = useState(0);
-  useEffect(() => {
-    const intervalTime = setInterval(() => setTime((prev) => prev + 1), 1000);
-    console.count("initial interval");
-    return () => {
-      console.count("stop interval");
-      return clearInterval(intervalTime);
-    };
-  }, []);
+  const time = useTimeOnPage();
   return <h3>You have spent {time} seconds on this page.</h3>;
 }
 
 function App() {
   const [clientSpying, setClientSpying] = useState(false);
-
+  const time = useTimeOnPage();
   return (
     <div className="App">
       <FibonacciCounter initialN={1} />
@@ -93,6 +86,7 @@ function App() {
         Toggle spying on user
       </button>
       {clientSpying && <TimeOnPage />}
+      <h4>Time on page: {time}</h4>
     </div>
   );
 }
