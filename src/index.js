@@ -3,58 +3,7 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 import { useTimeOnPage } from "./useTimeOnPage";
-
-function fib(n) {
-  if (n <= 1) return n;
-  return fib(n - 1) + fib(n - 2);
-}
-
-function useFibonacciCounter(initialN) {
-  const [n, setN] = useState(initialN);
-  const [fibs, setFibs] = useState(getInitialFibs);
-  const currentFibonacciNumber = fibs.current;
-  function getInitialFibs() {
-    const prev = fib(initialN - 1);
-    const current = fib(initialN);
-    return { prev: prev, current: current, next: prev + current };
-  }
-
-  const incrementN = () => {
-    setN((prevN) => {
-      const newN = prevN + 1;
-      setFibs((prevFibs) => ({
-        prev: prevFibs.current,
-        current: prevFibs.next,
-        next: prevFibs.current + prevFibs.next
-      }));
-      return newN;
-    });
-  };
-
-  const decrementN = () => {
-    setN((prevN) => {
-      const newN = prevN - 1;
-      setFibs((prevFibs) => ({
-        prev: prevFibs.current - prevFibs.prev,
-        current: prevFibs.prev,
-        next: prevFibs.current
-      }));
-      return newN;
-    });
-  };
-
-  function resetN() {
-    setN(initialN);
-    setFibs(getInitialFibs);
-  }
-  return {
-    n,
-    currentFibonacciNumber,
-    incrementN,
-    decrementN,
-    resetN
-  };
-}
+import { useFibonacciCounter } from "./useFibonacciCounter";
 
 function FibonacciCounter({ initialN }) {
   const {
