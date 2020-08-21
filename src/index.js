@@ -9,15 +9,10 @@ function fib(n) {
   return fib(n - 1) + fib(n - 2);
 }
 
-function FibonacciCounter({ initialN }) {
+function useFibonacciCounter(initialN) {
   const [n, setN] = useState(initialN);
   const [fibs, setFibs] = useState(getInitialFibs);
   const currentFibonacciNumber = fibs.current;
-  useEffect(() => {
-    document.title = `It's calculated: ${currentFibonacciNumber}`;
-    console.count("It is rendering");
-  }, [currentFibonacciNumber]);
-
   function getInitialFibs() {
     const prev = fib(initialN - 1);
     const current = fib(initialN);
@@ -48,10 +43,37 @@ function FibonacciCounter({ initialN }) {
     });
   };
 
+  function resetN() {
+    setN(initialN);
+    setFibs(getInitialFibs);
+  }
+  return {
+    n,
+    currentFibonacciNumber,
+    incrementN,
+    decrementN,
+    resetN
+  };
+}
+
+function FibonacciCounter({ initialN }) {
+  const {
+    n,
+    currentFibonacciNumber,
+    incrementN,
+    decrementN,
+    resetN
+  } = useFibonacciCounter(initialN);
+
+  useEffect(() => {
+    document.title = `It's calculated: ${currentFibonacciNumber}`;
+    console.count("It is rendering");
+  }, [currentFibonacciNumber]);
+
   return (
     <div>
       <h1>
-        fib({n}) == {fibs.current}
+        fib({n}) == {currentFibonacciNumber}
       </h1>
       <button onClick={incrementN}>
         <h3>+1</h3>
@@ -59,12 +81,7 @@ function FibonacciCounter({ initialN }) {
       <button onClick={decrementN}>
         <h3>-1</h3>
       </button>
-      <button
-        onClick={() => {
-          setN(initialN);
-          setFibs(getInitialFibs);
-        }}
-      >
+      <button onClick={resetN}>
         <h3>reset</h3>
       </button>
     </div>
@@ -86,7 +103,7 @@ function App() {
         Toggle spying on user
       </button>
       {clientSpying && <TimeOnPage />}
-      <h4>Time on page: {time}</h4>
+      <h4>Time on main page: {time}</h4>
     </div>
   );
 }
